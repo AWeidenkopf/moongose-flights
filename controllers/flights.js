@@ -1,4 +1,5 @@
 import { Flight } from "../models/flight.js"
+import { Meal } from '../models/meal.js'
 
 function newFlight(req, res) {
   const newFlight = new Flight()
@@ -96,6 +97,16 @@ function index(req, res) {
     })
   }
 
+  function addMeal(req, res) {
+    Flight.findById(req.params.id)
+    .then(flight => {
+      flight.meals.push(req.body.mealId)
+      flight.save()
+      .then(() => {
+        res.redirect(`/flight/${flight._id}`)
+      })
+    })
+  }
   
 
 
@@ -106,5 +117,6 @@ export {
   show,
   deleteFlight as delete,
   edit,
-  createTicket
+  createTicket,
+  addMeal
 }
