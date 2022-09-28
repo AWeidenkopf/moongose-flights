@@ -88,6 +88,9 @@ function index(req, res) {
   }
 
   function update(req, res) {
+    if (req.body.departs === '') {
+      delete req.body.departs
+    }
     Flight.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(flight => {
       res.redirect(`/flights/${flight._id}`)
