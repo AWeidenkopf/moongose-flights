@@ -87,6 +87,17 @@ function index(req, res) {
     })
   }
 
+  function update(req, res) {
+    Flight.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .then(flight => {
+      res.redirect(`/flights/${flight._id}`)
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/')
+    })
+  }
+
   function createTicket(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
@@ -136,6 +147,7 @@ export {
   show,
   deleteFlight as delete,
   edit,
+  update,
   createTicket,
   addMeal
 }
