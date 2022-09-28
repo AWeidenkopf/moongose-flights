@@ -41,12 +41,21 @@ function index(req, res) {
 
   function show(req, res) {
     Flight.findById(req.params.id)
+    .populate('meals')
     .then(flight => {
+      Meal.find({_id: {$nin: flight.meals}})
+      .then(meals => {
       res.render('flights/show', { 
         title: 'Flight Detail', 
-        flight: flight,
+        flight,
+        meals,
       })    
     })
+    .catch(err => {
+      console.log(err)
+      res.redirect("/")
+    })
+  })
     .catch(err => {
       console.log(err)
       res.redirect("/")
@@ -100,15 +109,25 @@ function index(req, res) {
   function addMeal(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
+      console.log('scott')
+      console.log(req.body)
       flight.meals.push(req.body.mealId)
       flight.save()
       .then(() => {
-        res.redirect(`/flight/${flight._id}`)
+        res.redirect(`/flights/${flight._id}`)
       })
+      .catch(err => {
+        console.log(err)
+        res.redirect('/')
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/')
     })
   }
   
-
+  
 
 export {
   newFlight as new,

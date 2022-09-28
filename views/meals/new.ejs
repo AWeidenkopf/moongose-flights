@@ -4,17 +4,16 @@
 
 <main>
 <h1><%= title %></h1>
-<p>Please, first ensure that the meal is not already in the dropdown</p>
-<select> <% meals.forEach( meal => { %>
-  <option value=""><%= meal.name %></option>
-
-<% }) %> 
 </select>
 <form id="add-meal-form" action="/meals" method="POST">
   <label for="meal-input">Meal:</label>
   <input type="text" name="name" id="meal-input">
   <button type="submit">Add Meal</button>
 </form>
+<p>Please, first ensure that the meal is not already in the dropdown</p>
+<select> <% meals.forEach( meal => { %>
+  <option value=""><%= meal.name %></option>
+<% }) %> 
 </main>
 
 <%- include('../partials/footer') %>
