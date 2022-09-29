@@ -15,7 +15,6 @@ function newFlight(req, res) {
 }
 
 function create(req, res) {
-  console.log(req.body)
   Flight.create(req.body)
   .then(flight => {
     res.redirect('/flights/new')
@@ -24,6 +23,7 @@ function create(req, res) {
     res.redirect('/flights/new')
   })
 }
+
 
 function index(req, res) {
   Flight.find({})
@@ -105,6 +105,7 @@ function index(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
       flight.tickets.push(req.body)
+      
       flight.save()
       .then(() => {
         res.redirect(`/flights/${flight._id}`)
@@ -123,8 +124,6 @@ function index(req, res) {
   function addMeal(req, res) {
     Flight.findById(req.params.id)
     .then(flight => {
-      console.log('scott')
-      console.log(req.body)
       flight.meals.push(req.body.mealId)
       flight.save()
       .then(() => {
